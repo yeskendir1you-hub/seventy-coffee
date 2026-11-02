@@ -2,269 +2,253 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Seventy Coffee — кофейни и обжарка в Алматы</title>
-  <meta name="description" content="Seventy Coffee — сеть кофеен в Алматы со своей обжаркой. Свежеобжаренное зерно, specialty-кофе, японская кухня и десерты. Абая 115, Жандарбекова 129, Сатпаева 55.">
-  <meta property="og:title" content="Seventy Coffee — Алматы">
-  <meta property="og:description" content="Свой кофе. Своя обжарка. Три кофейни в Алматы.">
-  <meta property="og:image" content="images/hero.jpg">
-  <meta name="theme-color" content="#16110d">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316110d'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23e9c46a'%3E70%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Seventy — свежеобжаренный кофе в Алматы</title>
+  <meta name="description" content="Seventy — specialty-обжарка и три кофейни в Алматы. Свежеобжаренное зерно с доставкой, школа бариста, ежедневно с 07:55.">
+  <meta property="og:title" content="Seventy Coffee · Алматы">
+  <meta property="og:description" content="Свежеобжаренный кофе с доставкой по Алматы.">
+  <meta property="og:image" content="images/hero-static.webp">
+  <meta name="theme-color" content="#F3EDE4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%231C1410'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-style='italic' text-anchor='middle' fill='%23F3EDE4'%3E70%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="images/hero-static.webp" as="image">
+  <link rel="stylesheet" href="css/site.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 </head>
 <body>
 
-<header class="nav" id="nav">
-  <a href="#top" class="logo" aria-label="Seventy Coffee">
-    <span class="logo-mark">70</span>
-    <span class="logo-text">seventy<br>coffee</span>
-  </a>
-  <nav class="nav-links" id="navLinks">
-    <a href="#about">О нас</a>
-    <a href="#menu">Меню</a>
-    <a href="#beans">Зерно</a>
-    <a href="#gallery">Атмосфера</a>
-    <a href="#places">Адреса</a>
+<!-- 3D stage: fixed behind the content. The static render shows until WebGL is ready, and stays if it isn't. -->
+<div class="stage" aria-hidden="true">
+  <img class="stage-poster" src="images/hero-static.webp" alt="" width="1200" height="1200">
+  <canvas id="scene"></canvas>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#top" aria-label="Seventy — на главную">Seventy<sup>70</sup></a>
+  <nav class="nav-links" aria-label="Разделы">
+    <a href="#story">О нас</a>
+    <a href="#lots">Лоты</a>
+    <a href="#school">Школа</a>
+    <a href="#places">Кофейни</a>
   </nav>
-  <a class="btn btn-small nav-cta" href="#places">Найти нас</a>
-  <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span></button>
+  <a class="nav-order" href="#" data-wa="Здравствуйте! Хочу заказать зерно Seventy">Заказать</a>
+  <button class="burger" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span></button>
 </header>
 
 <main id="top">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-bag bag3d-wrap" aria-hidden="true">
-      <div class="bag3d b1" data-start="-30">
-        <div class="face front"><div class="valve"></div><div class="lbl"><span class="bag-70">70</span><b>Seventy</b><small>fresh roast</small><i>seventy coffee · almaty</i></div></div>
-        <div class="face back"><div class="lbl back-lbl"><b>Seventy</b><p>Свежая обжарка<br>Seventy Company</p><p>100% арабика</p><span>250 г</span></div></div>
-        <div class="face left"><span>seventy</span></div>
-        <div class="face right"><span>coffee</span></div>
-        <div class="face top"></div>
-        <div class="face bottom"></div>
+  <!-- 1 · HERO -->
+  <section class="hero" data-scene="hero">
+    <h1 class="hero-word" aria-label="Seventy">
+      <span class="hw">Seven</span><span class="hw it">ty</span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-sub">Свежеобжаренный кофе<br>с доставкой по&nbsp;Алматы</p>
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="#lots">Заказать зерно</a>
+        <a class="btn btn-line" href="#places">Найти кофейню</a>
       </div>
-      <div class="bag3d-shadow"></div>
+      <p class="hero-meta mono">Roastery&nbsp;· Алматы&nbsp;· ежедневно с&nbsp;07:55</p>
     </div>
-    <div class="hero-inner">
-      <p class="eyebrow reveal">Алматы · кофейни и обжарка</p>
-      <h1 class="hero-title reveal">
-        <span class="big70">70</span>
-        <span class="hero-words">свой кофе.<br><em>своя обжарка.</em></span>
-      </h1>
-      <p class="hero-lead reveal">Обжариваем зерно сами — от зелёного зерна до упаковки — и наливаем его в трёх кофейнях города. Каждый день с 07:55.</p>
-      <div class="hero-actions reveal">
-        <a class="btn" href="#places">Выбрать кофейню</a>
-        <a class="btn btn-ghost" href="#beans">Заказать зерно</a>
-      </div>
-      <ul class="hero-stats reveal">
-        <li><b>3</b><span>кофейни<br>в Алматы</span></li>
-        <li><b>4.5★</b><span>рейтинг<br>в 2ГИС</span></li>
-        <li><b>3–7</b><span>дней с момента<br>обжарки</span></li>
-      </ul>
-    </div>
-    <a href="#about" class="scroll-hint" aria-label="Листать вниз"><span></span></a>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>espresso</span><span>★</span><span>flat white</span><span>★</span><span>filter</span><span>★</span><span>raf</span><span>★</span><span>matcha</span><span>★</span><span>cold brew</span><span>★</span>
-      <span>espresso</span><span>★</span><span>flat white</span><span>★</span><span>filter</span><span>★</span><span>raf</span><span>★</span><span>matcha</span><span>★</span><span>cold brew</span><span>★</span>
+  <!-- 2 · MARQUEE -->
+  <div class="marquee" aria-label="Обжарка, specialty, 100% арабика, школа бариста, с 07:55 каждый день">
+    <div class="marquee-track" aria-hidden="true">
+      <span>Обжарка</span><i></i><span><em>Specialty</em></span><i></i><span>100% Арабика</span><i></i><span><em>Школа бариста</em></span><i></i><span>С 07:55 каждый день</span><i></i>
+      <span>Обжарка</span><i></i><span><em>Specialty</em></span><i></i><span>100% Арабика</span><i></i><span><em>Школа бариста</em></span><i></i><span>С 07:55 каждый день</span><i></i>
     </div>
   </div>
 
-  <!-- ABOUT -->
-  <section class="section about" id="about">
-    <div class="about-grid">
-      <div class="about-photo reveal" style="--img:url('images/about.jpg')">
-        <div class="photo-fallback cup-art" aria-hidden="true"></div>
-        <span class="tag">roasted in Almaty</span>
-      </div>
-      <div class="about-text">
-        <p class="eyebrow reveal">О нас</p>
-        <h2 class="reveal">От зелёного зерна<br>до вашей чашки</h2>
-        <p class="reveal">Seventy — это кофейни и собственная обжарочная Seventy Company. Мы контролируем каждый этап: отбираем зелёное зерно, обжариваем небольшими партиями и сразу отправляем его на бар.</p>
-        <p class="reveal">Поэтому кофе в чашке — всегда свежий, а у нас можно не только выпить кофе, но и забрать пачку домой.</p>
-        <div class="features">
-          <div class="feature reveal"><span class="ico">◎</span><b>Своя обжарка</b><small>Свежие партии каждую неделю</small></div>
-          <div class="feature reveal"><span class="ico">✦</span><b>Specialty</b><small>100% арабика</small></div>
-          <div class="feature reveal"><span class="ico">◐</span><b>Кухня</b><small>Японский комфорт-фуд и десерты</small></div>
-          <div class="feature reveal"><span class="ico">⟶</span><b>Доставка</b><small>Зерно по Алматы и всему Казахстану</small></div>
-        </div>
-      </div>
+  <!-- 3 · STORY -->
+  <section class="story" id="story" data-scene="story">
+    <div class="story-num" aria-hidden="true">10</div>
+    <div class="story-text">
+      <h2 class="split">10 лет кофейной <em>культуры</em></h2>
+      <p class="lead fade">Seventy — это обжарка и&nbsp;кофейни, которые делают одни и&nbsp;те&nbsp;же люди. Зерно, которое вы пьёте в&nbsp;наших кофейнях, мы обжарили сами — на&nbsp;Seventy Roastery, здесь, в&nbsp;Алматы.</p>
+      <p class="fade">Основатель Seventy — Канат Джетписов. Десять лет мы учимся, пробуем, обжариваем и&nbsp;делимся кофе с&nbsp;городом: в&nbsp;чашке, в&nbsp;пачке домой и&nbsp;в&nbsp;нашей школе бариста.</p>
+      <dl class="facts fade">
+        <div><dt class="mono">Обжарка</dt><dd>Seventy Roastery</dd></div>
+        <div><dt class="mono">Основатель</dt><dd>Канат Джетписов</dd></div>
+        <div><dt class="mono">Кофейни</dt><dd>3 в Алматы</dd></div>
+      </dl>
     </div>
+    <figure class="story-photo ph-real fade" style="--r:-3deg">
+      <img src="images/interior.webp" alt="Бар кофейни Seventy: витрина, растения, бариста" loading="lazy" width="362" height="226">
+      <figcaption class="mono">Кофейня Seventy</figcaption>
+    </figure>
+    <figure class="story-photo2 ph fade" style="--r:4deg">
+      <span class="ph-note mono">Фото: Канат Джетписов у ростера, тёплый свет из окна, вертикаль 4:5</span>
+    </figure>
   </section>
 
-  <!-- MENU -->
-  <section class="section menu" id="menu">
-    <div class="section-head">
-      <p class="eyebrow reveal">Меню</p>
-      <h2 class="reveal">Что у нас на баре</h2>
+  <!-- 4 · LOTS -->
+  <section class="lots" id="lots" data-scene="lots">
+    <div class="lots-head">
+      <h2 class="split">Кофейные <em>лоты</em></h2>
+      <p class="fade">Обжариваем небольшими партиями и&nbsp;отправляем не&nbsp;позже чем через 3–7&nbsp;дней после обжарки.</p>
     </div>
-    <div class="tabs reveal" role="tablist">
-      <button class="tab active" data-tab="coffee" role="tab">Кофе</button>
-      <button class="tab" data-tab="signature" role="tab">Авторское</button>
-      <button class="tab" data-tab="nocoffee" role="tab">Не кофе</button>
-      <button class="tab" data-tab="food" role="tab">Еда</button>
-    </div>
-
-    <div class="menu-panel active" data-panel="coffee">
-      <div class="menu-item"><div><h3>Эспрессо</h3><p>Плотный, сладкий, с шоколадным послевкусием</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Американо</h3><p>Эспрессо и горячая вода</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Капучино</h3><p>Классика с бархатной молочной пеной</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Флэт уайт</h3><p>Двойной эспрессо и тонкий слой молока</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Латте</h3><p>Мягкий и молочный</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Фильтр-кофе</h3><p>Свежая обжарка, воронка или батч-брю</p></div><span class="dots"></span></div>
-    </div>
-    <div class="menu-panel" data-panel="signature">
-      <div class="menu-item"><div><h3>Раф</h3><p>Сливочный, с ванилью или сезонным вкусом</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Колд брю</h3><p>Холодное заваривание 16 часов</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Айс латте</h3><p>Для жарких алматинских дней</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Эспрессо-тоник</h3><p>Тоник, лёд и двойной эспрессо</p></div><span class="dots"></span></div>
-    </div>
-    <div class="menu-panel" data-panel="nocoffee">
-      <div class="menu-item"><div><h3>Матча латте</h3><p>Японский зелёный чай на молоке</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Какао</h3><p>Густое, на настоящем шоколаде</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Чай</h3><p>Листовой, чёрный и зелёный</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Лимонады</h3><p>Сезонные вкусы</p></div><span class="dots"></span></div>
-    </div>
-    <div class="menu-panel" data-panel="food">
-      <div class="menu-item"><div><h3>Японский комфорт-фуд</h3><p>Тёплые блюда на завтрак и обед</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Сэндвичи</h3><p>Свежие, каждый день</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Хот-доги</h3><p>Быстро и сытно — с собой или на месте</p></div><span class="dots"></span></div>
-      <div class="menu-item"><div><h3>Пироги и десерты</h3><p>К кофе — то, что надо</p></div><span class="dots"></span></div>
-    </div>
-    <p class="menu-note reveal">Актуальное меню и цены — на баре и в 2ГИС.</p>
-  </section>
-
-  <!-- BEANS -->
-  <section class="section beans" id="beans">
-    <div class="beans-grid">
-      <div class="beans-text">
-        <p class="eyebrow reveal">Зерно домой</p>
-        <h2 class="reveal">Свежая обжарка<br>с доставкой</h2>
-        <p class="reveal">Отправляем зерно не старше 3–7 дней после обжарки. В зёрнах или помол под вашу кофеварку — по Алматы и по всему Казахстану.</p>
-        <a class="btn reveal" id="orderBtn" href="#" target="_blank" rel="noopener">Заказать в WhatsApp</a>
-      </div>
-      <div class="bags">
-        <div class="bag3d-wrap reveal">
-          <div class="bag3d b1" data-start="-25">
-            <div class="face front"><div class="valve"></div><div class="lbl"><span class="bag-70">70</span><b>Brazil</b><small>для эспрессо</small><i>seventy coffee · almaty</i></div></div>
-            <div class="face back"><div class="lbl back-lbl"><b>Brazil</b><p>Свежая обжарка<br>Seventy Company</p><p>100% арабика</p><span>250 г</span></div></div>
-            <div class="face left"><span>seventy</span></div>
-            <div class="face right"><span>coffee</span></div>
-            <div class="face top"></div>
-            <div class="face bottom"></div>
-          </div>
-          <div class="bag3d-shadow"></div>
-          <p class="bag3d-info"><b>Brazil</b> · 250 г · от 4 750 ₸</p>
-        </div>
-        <div class="bag3d-wrap reveal">
-          <div class="bag3d b2" data-start="25">
-            <div class="face front"><div class="valve"></div><div class="lbl"><span class="bag-70">70</span><b>Drip</b><small>для фильтра</small><i>seventy coffee · almaty</i></div></div>
-            <div class="face back"><div class="lbl back-lbl"><b>Drip</b><p>Свежая обжарка<br>Seventy Company</p><p>100% арабика</p><span>250 г</span></div></div>
-            <div class="face left"><span>seventy</span></div>
-            <div class="face right"><span>coffee</span></div>
-            <div class="face top"></div>
-            <div class="face bottom"></div>
-          </div>
-          <div class="bag3d-shadow"></div>
-          <p class="bag3d-info"><b>Drip</b> · 250 г · от 4 900 ₸</p>
-        </div>
-        <p class="drag-hint">↻ потяните, чтобы покрутить</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- GALLERY -->
-  <section class="section gallery" id="gallery">
-    <div class="section-head">
-      <p class="eyebrow reveal">Атмосфера</p>
-      <h2 class="reveal">Заходите на чашку</h2>
-    </div>
-    <div class="gallery-grid">
-      <figure class="g g1 reveal" style="--img:url('images/gallery-1.jpg')"><figcaption>Бар</figcaption></figure>
-      <figure class="g g2 reveal" style="--img:url('images/gallery-2.jpg')"><figcaption>Латте-арт</figcaption></figure>
-      <figure class="g g3 reveal" style="--img:url('images/gallery-3.jpg')"><figcaption>Обжарка</figcaption></figure>
-      <figure class="g g4 reveal" style="--img:url('images/gallery-4.jpg')"><figcaption>Десерты</figcaption></figure>
-      <figure class="g g5 reveal" style="--img:url('images/gallery-5.jpg')"><figcaption>Зал</figcaption></figure>
-    </div>
-    <div class="insta reveal" id="instaBlock">
-      <a class="btn btn-ghost" id="instaBtn" href="#" target="_blank" rel="noopener">Больше в Instagram</a>
-    </div>
-  </section>
-
-  <!-- PLACES -->
-  <section class="section places" id="places">
-    <div class="section-head">
-      <p class="eyebrow reveal">Адреса</p>
-      <h2 class="reveal">Три кофейни в Алматы</h2>
-    </div>
-    <div class="places-grid">
-      <article class="place reveal">
-        <span class="place-num">01</span>
-        <h3>Жандарбекова, 129</h3>
-        <p>угол ул. Мынбаева, 2 этаж</p>
-        <p class="hours"><span class="open-dot"></span>Ежедневно 07:55 – 21:00</p>
-        <div class="place-links">
-          <a href="https://2gis.kz/almaty/firm/70000001066958132" target="_blank" rel="noopener">2ГИС</a>
-          <a href="https://yandex.kz/maps/?text=Seventy%20Coffee%20%D0%96%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D0%B1%D0%B5%D0%BA%D0%BE%D0%B2%D0%B0%20129%20%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B" target="_blank" rel="noopener">Яндекс</a>
-        </div>
+    <div class="lots-row">
+      <article class="lot" style="--t:-4deg" tabindex="0">
+        <p class="lot-origin mono">Brazil · Cerrado</p>
+        <h3>Бразилия</h3>
+        <ul class="notes"><li>шоколад</li><li>орех</li><li>карамель</li></ul>
+        <p class="lot-meta mono"><span>Эспрессо</span><span>Natural</span></p>
+        <p class="lot-price mono">250 г · <span class="price">цена</span></p>
       </article>
-      <article class="place reveal">
-        <span class="place-num">02</span>
-        <h3>Абая, 115</h3>
-        <p>угол ул. Ауэзова, 1 этаж</p>
-        <p class="hours"><span class="open-dot"></span>Ежедневно 07:55 – 21:00</p>
-        <div class="place-links">
-          <a href="https://2gis.kz/almaty/firm/70000001029486646" target="_blank" rel="noopener">2ГИС</a>
-          <a href="https://yandex.com/maps/org/seventy_coffee/4885608267/" target="_blank" rel="noopener">Яндекс</a>
-        </div>
+      <article class="lot" style="--t:3deg" tabindex="0">
+        <p class="lot-origin mono">Colombia</p>
+        <h3>Колумбия</h3>
+        <ul class="notes"><li>карамель</li><li>красное яблоко</li><li>какао</li></ul>
+        <p class="lot-meta mono"><span>Эспрессо · фильтр</span></p>
+        <p class="lot-price mono">250 г · <span class="price">цена</span></p>
       </article>
-      <article class="place reveal">
-        <span class="place-num">03</span>
-        <h3>Сатпаева, 55</h3>
-        <p>угол ул. Жарокова</p>
-        <p class="hours"><span class="open-dot"></span>Ежедневно 07:55 – 21:00</p>
-        <div class="place-links">
-          <a href="https://2gis.kz/almaty/search/Seventy%20Coffee%20%D0%A1%D0%B0%D1%82%D0%BF%D0%B0%D0%B5%D0%B2%D0%B0%2055" target="_blank" rel="noopener">2ГИС</a>
-          <a href="https://yandex.kz/maps/?text=Seventy%20Coffee%20%D0%A1%D0%B0%D1%82%D0%BF%D0%B0%D0%B5%D0%B2%D0%B0%2055%20%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B" target="_blank" rel="noopener">Яндекс</a>
-        </div>
+      <article class="lot" style="--t:-2deg" tabindex="0">
+        <p class="lot-origin mono">Kenya</p>
+        <h3>Кения</h3>
+        <ul class="notes"><li>чёрная смородина</li><li>грейпфрут</li><li>томат</li></ul>
+        <p class="lot-meta mono"><span>Фильтр</span></p>
+        <p class="lot-price mono">250 г · <span class="price">цена</span></p>
+      </article>
+      <article class="lot" style="--t:4deg" tabindex="0">
+        <p class="lot-origin mono">Ethiopia</p>
+        <h3>Эфиопия</h3>
+        <ul class="notes"><li>жасмин</li><li>бергамот</li><li>персик</li></ul>
+        <p class="lot-meta mono"><span>Фильтр</span></p>
+        <p class="lot-price mono">250 г · <span class="price">цена</span></p>
+      </article>
+      <article class="lot lot-decaf" style="--t:-3deg" tabindex="0">
+        <p class="lot-origin mono">Decaf</p>
+        <h3>Декаф</h3>
+        <ul class="notes"><li>молочный шоколад</li><li>орех</li></ul>
+        <p class="lot-meta mono"><span>Эспрессо</span></p>
+        <p class="lot-price mono">250 г · <span class="price">цена</span></p>
       </article>
     </div>
-    <p class="open-now reveal" id="openNow"></p>
+    <figure class="lots-photo ph-real fade">
+      <img src="images/bag-pack.webp" alt="Пачка Seventy Brazil Cerrado с крафтовой биркой" loading="lazy" width="424" height="282">
+      <figcaption class="mono">Наша упаковка</figcaption>
+    </figure>
   </section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <h2 class="reveal">Утро начинается<br>с <span class="accent">70</span></h2>
-    <a class="btn reveal" id="callBtn" href="tel:+77776918585">+7 777 691 85 85</a>
+  <!-- 5 · FORMATS -->
+  <section class="formats" data-scene="formats">
+    <h2 class="split">Как <em>забрать</em> домой</h2>
+    <ol class="format-list">
+      <li class="format fade"><h3>Зерно</h3><p>Целое зерно — максимум аромата. Мелите прямо перед заваркой.</p><span class="mono">250 г · 1 кг</span></li>
+      <li class="format fade"><h3><em>Молотый</em></h3><p>Смелем под вашу турку, гейзер, воронку или френч-пресс.</p><span class="mono">помол на выбор</span></li>
+      <li class="format fade"><h3>Дрип-пакеты</h3><p>Specialty-кофе за три минуты — в офисе, в дороге, в горах.</p><span class="mono">порционно</span></li>
+      <li class="format fade"><h3><em>Чай</em></h3><p>Для тех, кто сегодня без кофеина.</p><span class="mono">листовой</span></li>
+    </ol>
+    <a class="btn btn-dark fade" href="#" data-wa="Здравствуйте! Хочу заказать кофе Seventy с доставкой">Заказать в WhatsApp</a>
   </section>
 
+  <!-- 6 · SCHOOL (inverted) -->
+  <section class="school" id="school" data-scene="school" data-invert>
+    <div class="school-70" aria-hidden="true">70</div>
+    <div class="school-text">
+      <h2 class="split">Школа <em>бариста</em></h2>
+      <p class="fade">Учим готовить кофе так, как его готовят у&nbsp;нас за&nbsp;баром: эспрессо, молоко, латте-арт, альтернатива. Для тех, кто хочет работать бариста, и&nbsp;для тех, кто просто любит кофе дома.</p>
+      <ul class="school-list fade">
+        <li><span class="mono">Эспрессо</span>настройка помола, экстракция, вкус</li>
+        <li><span class="mono">Молоко</span>текстура и латте-арт</li>
+        <li><span class="mono">Альтернатива</span>воронка, аэропресс, кемекс</li>
+      </ul>
+      <a class="btn btn-cream fade" href="#" data-wa="Здравствуйте! Хочу записаться в школу бариста Seventy">Записаться</a>
+    </div>
+    <div class="school-cup" aria-hidden="true"></div>
+  </section>
+
+  <!-- 7 · EVENT -->
+  <section class="event" data-scene="event">
+    <div class="event-date">
+      <span class="event-day">12</span>
+      <span class="event-month mono">ноября</span>
+    </div>
+    <div class="event-text">
+      <h2 class="split">Latte Art <em>Battle</em></h2>
+      <p class="fade">Бариста города сходятся у&nbsp;питчеров. Приходите болеть, пить кофе и&nbsp;смотреть, как рождается рисунок в&nbsp;чашке.</p>
+      <p class="event-count mono fade" id="eventCount"></p>
+      <a class="btn btn-line fade" href="https://www.instagram.com/seventy.coffee" target="_blank" rel="noopener">Подробности в Instagram</a>
+    </div>
+    <figure class="event-photo ph fade" style="--r:3deg">
+      <span class="ph-note mono">Фото: Latte Art Battle — бариста у&nbsp;питчеров, зрители вокруг, горизонталь 4:3</span>
+    </figure>
+  </section>
+
+  <!-- 8 · PLACES -->
+  <section class="places" id="places" data-scene="places">
+    <h2 class="split">Три <em>кофейни</em></h2>
+    <p class="places-status mono fade" id="openNow">Ежедневно 07:55–21:00</p>
+    <ul class="place-list">
+      <li class="place fade">
+        <h3>пр. Абая, 115</h3>
+        <p>угол Ауэзова</p>
+        <span class="mono">07:55–21:00</span>
+        <span class="place-links"><a href="https://2gis.kz/almaty/firm/70000001029486646" target="_blank" rel="noopener">2ГИС</a><a href="https://yandex.kz/maps/?text=Seventy%20Coffee%20%D0%90%D0%B1%D0%B0%D1%8F%20115%20%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B" target="_blank" rel="noopener">Яндекс</a></span>
+      </li>
+      <li class="place fade">
+        <h3>ул. Жандарбекова, 129</h3>
+        <p>угол Мынбаева</p>
+        <span class="mono">07:55–21:00</span>
+        <span class="place-links"><a href="https://2gis.kz/almaty/firm/70000001066958132" target="_blank" rel="noopener">2ГИС</a><a href="https://yandex.kz/maps/?text=Seventy%20Coffee%20%D0%96%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D0%B1%D0%B5%D0%BA%D0%BE%D0%B2%D0%B0%20129%20%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B" target="_blank" rel="noopener">Яндекс</a></span>
+      </li>
+      <li class="place fade">
+        <h3>ул. Сатпаева, 55</h3>
+        <p>угол Жарокова</p>
+        <span class="mono">07:55–21:00</span>
+        <span class="place-links"><a href="https://2gis.kz/almaty/search/Seventy%20Coffee%20%D0%A1%D0%B0%D1%82%D0%BF%D0%B0%D0%B5%D0%B2%D0%B0%2055" target="_blank" rel="noopener">2ГИС</a><a href="https://yandex.kz/maps/?text=Seventy%20Coffee%20%D0%A1%D0%B0%D1%82%D0%BF%D0%B0%D0%B5%D0%B2%D0%B0%2055%20%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B" target="_blank" rel="noopener">Яндекс</a></span>
+      </li>
+    </ul>
+    <div class="places-photos">
+      <figure class="ph-real fade" style="--r:-2deg"><img src="images/shelf.webp" alt="Полка с пачками Seventy в кофейне" loading="lazy" width="550" height="337"></figure>
+      <figure class="ph-real fade" style="--r:3deg"><img src="images/cold-brew.webp" alt="Колд брю в высоком стакане" loading="lazy" width="378" height="522"></figure>
+    </div>
+  </section>
+
+  <!-- 9 · BONUSES -->
+  <section class="bonus" data-scene="bonus">
+    <h2 class="split">Приятное <em>к&nbsp;заказу</em></h2>
+    <div class="bonus-row">
+      <div class="bonus-item fade"><span class="bonus-big">5%</span><p>баллами с&nbsp;каждого заказа</p></div>
+      <div class="bonus-item fade"><span class="bonus-big">10&nbsp;000&nbsp;₸</span><p>и&nbsp;доставка бесплатно</p></div>
+      <div class="bonus-item fade"><span class="bonus-big"><em>Пачки</em></span><p>принимаем обратно и&nbsp;сдаём на&nbsp;переработку</p></div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing" data-scene="closing">
+    <p class="closing-line split">Утро начинается <em>здесь</em></p>
+  </section>
 </main>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <a href="#top" class="logo"><span class="logo-mark">70</span><span class="logo-text">seventy<br>coffee</span></a>
+<footer class="footer" data-scene="footer">
+  <div class="footer-grid">
     <div class="footer-col">
-      <b>Контакты</b>
-      <a href="tel:+77776918585">+7 777 691 85 85</a>
-      <a id="footerWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
-      <a id="footerInsta" href="#" target="_blank" rel="noopener">Instagram</a>
+      <span class="mono">Позвонить</span>
+      <a href="tel:+77771265151">+7 777 126 51 51</a>
     </div>
     <div class="footer-col">
-      <b>Часы работы</b>
-      <span>Ежедневно</span>
-      <span>07:55 – 21:00</span>
+      <span class="mono">Написать</span>
+      <a href="mailto:seventycoffee.kz@gmail.com">seventycoffee.kz@gmail.com</a>
+    </div>
+    <div class="footer-col footer-btns">
+      <a class="btn btn-dark" href="#" data-wa="Здравствуйте!">WhatsApp</a>
+      <a class="btn btn-line" href="https://www.instagram.com/seventy.coffee" target="_blank" rel="noopener">@seventy.coffee</a>
     </div>
   </div>
-  <p class="copy">© <span id="year"></span> Seventy Coffee · Алматы</p>
+  <div class="footer-70" aria-hidden="true">Seventy</div>
+  <p class="footer-copy mono"><span>© <span id="year">2026</span> Seventy Coffee</span><span>Алматы</span></p>
 </footer>
 
-<script src="script.js"></script>
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="vendor/lenis.min.js" defer></script>
+<script src="js/main.js" defer></script>
+<script type="module" src="js/scene.js"></script>
 </body>
 </html>
